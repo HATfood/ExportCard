@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shirin Firoozbakht - Digital Business Card</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            position: relative;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .background-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+        }
+        
+        .shape:nth-child(1) {
+            width: 400px;
+            height: 400px;
+            top: -200px;
+            left: -100px;
+            background: linear-gradient(135deg, rgba(179, 229, 252, 0.2), rgba(240, 244, 195, 0.1));
+        }
+        
+        .shape:nth-child(2) {
+            width: 300px;
+            height: 300px;
+            bottom: -150px;
+            right: -50px;
+            background: linear-gradient(135deg, rgba(214, 204, 246, 0.2), rgba(255, 236, 179, 0.1));
+        }
+        
+        .shape:nth-child(3) {
+            width: 200px;
+            height: 200px;
+            top: 40%;
+            right: 20%;
+            background: linear-gradient(135deg, rgba(206, 223, 241, 0.15), rgba(224, 242, 241, 0.1));
+        }
+        
+        .card-container {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .profile-images {
+            display: flex;
+            justify-content: center;
+            height: 80px;
+            margin-bottom: 0;
+        }
+        
+        .image-container {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            position: relative;
+            border: 3px solid #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .image-container.logo {
+            background-color: #f0f5ff;
+            border-color: #a0c0f0;
+            margin-right: -35px; /* Increased overlap */
+            z-index: 1;
+        }
+        
+        .image-container.profile {
+            background-color: #fff5f0;
+            border-color: #f0c0a0;
+            z-index: 2;
+        }
+        
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .glass-box {
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            background-color: rgba(255, 255, 255, 0.65);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.125);
+            padding: 30px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            transition: transform 0.3s ease;
+        }
+        
+        .glass-box:hover {
+            transform: translateY(-5px);
+        }
+        
+        .header-box {
+            text-align: center;
+            margin-top: -20px; /* Pull up to overlap with images */
+            padding-top: 40px; /* Add padding at top to maintain internal spacing */
+        }
+        
+        .name {
+            font-size: 28px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .title {
+            font-size: 18px;
+            font-weight: 500;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .company {
+            font-size: 16px;
+            color: #777;
+        }
+        
+        .info-boxes {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        .info-box {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            height: 100%;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        
+        .info-item i {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #6c63ff;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        .info-text {
+            font-size: 16px;
+            color: #444;
+            word-break: break-word;
+            line-height: 1.4;
+        }
+        
+        .info-text a {
+            color: #6c63ff;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        .info-text a:hover {
+            color: #5046e5;
+        }
+        
+        .qr-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .qr-title {
+            font-size: 16px;
+            color: #666;
+            text-align: center;
+            line-height: 1.4;
+        }
+        
+        #qrcode {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        
+        @media (max-width: 600px) {
+            .info-boxes {
+                grid-template-columns: 1fr;
+            }
+            
+            .glass-box {
+                padding: 25px 20px;
+            }
+            
+            .header-box {
+                padding-top: 35px;
+            }
+            
+            .name {
+                font-size: 24px;
+            }
+            
+            .title {
+                font-size: 16px;
+            }
+            
+            .info-text {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    
+    <div class="card-container">
+        <!-- Profile Images -->
+        <div class="profile-images">
+            <div class="image-container logo">
+                <img src="logo.png" alt="Company Logo" class="profile-image">
+            </div>
+            <div class="image-container profile">
+                <img src="pic.png" alt="Profile Picture" class="profile-image">
+            </div>
+        </div>
+        
+        <!-- Name and Title Box -->
+        <div class="glass-box header-box">
+            <h1 class="name">Shirin Firoozbakht</h1>
+            <h2 class="title">Senior Export Expert</h2>
+            <h2 class="company">@ Hasti Aryan Tamin</h2>
+        </div>
+        
+        <!-- Contact Information Boxes -->
+        <div class="info-boxes">
+            <!-- Phone and Email Box -->
+            <div class="glass-box info-box">
+                <div class="info-item">
+                    <i>📱</i>
+                    <span class="info-text">
+                        <a href="tel:+989122644556">+989122644556</a>
+                    </span>
+                </div>
+                
+                <div class="info-item">
+                    <i>✉️</i>
+                    <span class="info-text">
+                        <a href="mailto:firouzbakht.shirin@hastitamin.com">firouzbakht.shirin@hastitamin.com</a>
+                    </span>
+                </div>
+            </div>
+            
+            <!-- LinkedIn and Address Box -->
+            <div class="glass-box info-box">
+                <div class="info-item">
+                    <i>🔗</i>
+                    <span class="info-text">
+                        <a href="https://www.linkedin.com/in/shirin-firoozbakht" target="_blank">
+                            www.linkedin.com/in/shirin-firoozbakht
+                        </a>
+                    </span>
+                </div>
+                
+                <div class="info-item">
+                    <i>📍</i>
+                    <span class="info-text">No.8, Afarin Alley, Alvand St., Argentina Sq., Tehran, Iran.</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- QR Code Box -->
+        <div class="glass-box qr-box">
+            <div class="qr-title">Scan to view our product catalogue</div>
+            <div id="qrcode"></div>
+        </div>
+    </div>
+    
+    <script>
+        // Generate QR code for the catalogue PDF
+        window.onload = function() {
+            new QRCode(document.getElementById("qrcode"), {
+                text: "http://hatintl.com/CATALOG-RUSSIA.pdf",
+                width: 120,
+                height: 120,
+                colorDark: "#333333",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        };
+    </script>
+</body>
+</html>
