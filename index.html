@@ -5,67 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shirin Firoozbakht - Digital Business Card</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- Added Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #264b3b; /* Dark Green */
+            --accent-color: #e9a43c; /* Gold */
+            --background-color: #f4f4f4; /* Light Grey Background */
+            --card-bg-color: rgba(255, 255, 255, 0.85); /* Slightly more opaque white */
+            --text-color: #333;
+            --subtle-text-color: #555;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background-color: var(--background-color); /* Changed background */
             position: relative;
             padding: 20px;
             overflow-y: auto;
         }
-        
-        .background-shapes {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-        }
-        
-        .shape {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(5px);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
-        }
-        
-        .shape:nth-child(1) {
-            width: 400px;
-            height: 400px;
-            top: -200px;
-            left: -100px;
-            background: linear-gradient(135deg, rgba(179, 229, 252, 0.2), rgba(240, 244, 195, 0.1));
-        }
-        
-        .shape:nth-child(2) {
-            width: 300px;
-            height: 300px;
-            bottom: -150px;
-            right: -50px;
-            background: linear-gradient(135deg, rgba(214, 204, 246, 0.2), rgba(255, 236, 179, 0.1));
-        }
-        
-        .shape:nth-child(3) {
-            width: 200px;
-            height: 200px;
-            top: 40%;
-            right: 20%;
-            background: linear-gradient(135deg, rgba(206, 223, 241, 0.15), rgba(224, 242, 241, 0.1));
-        }
-        
+
         .card-container {
             width: 100%;
             max-width: 500px;
@@ -73,259 +42,300 @@
             flex-direction: column;
             gap: 20px;
         }
-        
+
         .profile-images {
             display: flex;
             justify-content: center;
             height: 80px;
             margin-bottom: 0;
         }
-        
+
         .image-container {
             width: 100px;
             height: 100px;
             border-radius: 50%;
             overflow: hidden;
             position: relative;
-            border: 3px solid #fff;
+            border: 3px solid; /* Border color set below */
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff; /* Ensure background is white */
         }
-        
+
         .image-container.logo {
-            background-color: #f0f5ff;
-            border-color: #a0c0f0;
-            margin-right: -35px; /* Increased overlap */
+             /* Changed border color */
+            border-color: var(--primary-color);
+            margin-right: -30px; /* Adjusted overlap */
             z-index: 1;
         }
-        
+
         .image-container.profile {
-            background-color: #fff5f0;
-            border-color: #f0c0a0;
+             /* Changed border color */
+            border-color: var(--accent-color);
             z-index: 2;
         }
-        
+
         .profile-image {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-        
+
         .glass-box {
-            backdrop-filter: blur(16px) saturate(180%);
-            -webkit-backdrop-filter: blur(16px) saturate(180%);
-            background-color: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(10px) saturate(150%);
+            -webkit-backdrop-filter: blur(10px) saturate(150%);
+            background-color: var(--card-bg-color); /* Updated background color */
             border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.125);
+            /* Changed border to subtle green */
+            border: 1px solid rgba(38, 75, 59, 0.15);
+             /* Added accent border top */
+            border-top: 3px solid var(--accent-color);
             padding: 30px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1); /* Softened shadow */
             transition: transform 0.3s ease;
         }
-        
+
         .glass-box:hover {
             transform: translateY(-5px);
         }
-        
+
         .header-box {
             text-align: center;
-            margin-top: -20px; /* Pull up to overlap with images */
-            padding-top: 40px; /* Add padding at top to maintain internal spacing */
+            margin-top: -20px;
+            padding-top: 50px; /* Increased padding to account for taller image container */
+            padding-bottom: 20px; /* Added padding bottom for spacing */
         }
-        
+
         .name {
             font-size: 28px;
             font-weight: 600;
-            color: #333;
+            color: var(--text-color); /* Standard text color */
             margin-bottom: 5px;
         }
-        
+
         .title {
             font-size: 18px;
             font-weight: 500;
-            color: #666;
+            color: var(--primary-color); /* Use primary color for title */
             margin-bottom: 5px;
         }
-        
+
         .company {
             font-size: 16px;
-            color: #777;
+            color: var(--subtle-text-color);
+            /* Removed bottom margin as product list is gone */
         }
-        
+
+        /* Removed Product List Style */
+
         .info-boxes {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 20px;
         }
-        
+
         .info-box {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 18px; /* Increased gap slightly */
             height: 100%;
         }
-        
+
         .info-item {
             display: flex;
             align-items: flex-start;
             gap: 12px;
         }
-        
-        .info-item i {
+
+        .info-item i { /* Style for Font Awesome icons */
             width: 24px;
             height: 24px;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: #6c63ff;
+            color: var(--primary-color); /* Use primary color for icons */
+            font-size: 20px; /* Adjust icon size */
             flex-shrink: 0;
-            margin-top: 2px;
+            margin-top: 1px;
         }
-        
+
         .info-text {
             font-size: 16px;
-            color: #444;
+            color: var(--subtle-text-color); /* Use subtle text color */
             word-break: break-word;
-            line-height: 1.4;
+            line-height: 1.5; /* Adjusted line height */
         }
-        
+
         .info-text a {
-            color: #6c63ff;
+            color: var(--primary-color); /* Use primary color for links */
             text-decoration: none;
             transition: color 0.2s ease;
         }
-        
+
         .info-text a:hover {
-            color: #5046e5;
+            color: var(--accent-color); /* Use accent color for hover */
         }
-        
+
+        /* Make address link look like normal text initially */
+        .info-text a.address-link {
+             color: var(--subtle-text-color); /* Match surrounding text */
+             text-decoration: none; /* Remove underline */
+        }
+        /* Apply link styling on hover */
+        .info-text a.address-link:hover {
+             color: var(--accent-color);
+             text-decoration: none; /* Keep underline off or add it if preferred */
+        }
+
+
         .qr-box {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 15px;
         }
-        
+
         .qr-title {
             font-size: 16px;
-            color: #666;
+            color: var(--primary-color); /* Use primary color */
             text-align: center;
             line-height: 1.4;
         }
-        
+
         #qrcode {
             background: white;
             padding: 10px;
             border-radius: 8px;
+            border: 1px solid var(--background-color); /* Light border */
         }
-        
+
         @media (max-width: 600px) {
             .info-boxes {
                 grid-template-columns: 1fr;
             }
-            
+
             .glass-box {
                 padding: 25px 20px;
             }
-            
+
             .header-box {
-                padding-top: 35px;
+                padding-top: 45px; /* Adjust for mobile */
             }
-            
+
             .name {
                 font-size: 24px;
             }
-            
+
             .title {
                 font-size: 16px;
             }
-            
+
             .info-text {
                 font-size: 14px;
             }
+
+             .info-item i {
+                font-size: 18px;
+             }
         }
     </style>
 </head>
 <body>
-    <div class="background-shapes">
-        <div class="shape"></div>
-        <div class="shape"></div>
-        <div class="shape"></div>
-    </div>
-    
+    <!-- Container remains the same -->
     <div class="card-container">
         <!-- Profile Images -->
         <div class="profile-images">
             <div class="image-container logo">
+                <!-- Make sure logo.png is in the same directory -->
                 <img src="logo.png" alt="Company Logo" class="profile-image">
             </div>
             <div class="image-container profile">
+                 <!-- Make sure pic.png is in the same directory -->
                 <img src="pic.png" alt="Profile Picture" class="profile-image">
             </div>
         </div>
-        
+
         <!-- Name and Title Box -->
         <div class="glass-box header-box">
             <h1 class="name">Shirin Firoozbakht</h1>
             <h2 class="title">Senior Export Expert</h2>
             <h2 class="company">@ Hasti Aryan Tamin</h2>
+            <!-- Product List Removed -->
         </div>
-        
+
         <!-- Contact Information Boxes -->
         <div class="info-boxes">
-            <!-- Phone and Email Box -->
+            <!-- Phone, Email, Website Box -->
             <div class="glass-box info-box">
                 <div class="info-item">
-                    <i>📱</i>
+                    <!-- Replaced emoji with Font Awesome icon -->
+                    <i><i class="fas fa-phone-alt"></i></i>
                     <span class="info-text">
-                        <a href="tel:+989122644556">+989122644556</a>
+                        <a href="tel:+989122644556">+98 912 264 4556</a>
                     </span>
                 </div>
-                
+
                 <div class="info-item">
-                    <i>✉️</i>
+                     <!-- Replaced emoji with Font Awesome icon -->
+                    <i><i class="fas fa-envelope"></i></i>
                     <span class="info-text">
                         <a href="mailto:firouzbakht.shirin@hastitamin.com">firouzbakht.shirin@hastitamin.com</a>
                     </span>
                 </div>
+                 <!-- Added Website -->
+                 <div class="info-item">
+                    <i><i class="fas fa-globe"></i></i>
+                    <span class="info-text">
+                        <a href="http://www.hastitaamin.com" target="_blank">HastiTaamin.com</a>
+                    </span>
+                </div>
             </div>
-            
+
             <!-- LinkedIn and Address Box -->
             <div class="glass-box info-box">
                 <div class="info-item">
-                    <i>🔗</i>
+                     <!-- Replaced emoji with Font Awesome icon -->
+                    <i><i class="fab fa-linkedin-in"></i></i>
                     <span class="info-text">
                         <a href="https://www.linkedin.com/in/shirin-firoozbakht" target="_blank">
                             Linkedin
                         </a>
                     </span>
                 </div>
-                
+
                 <div class="info-item">
-                    <i>📍</i>
-                    <span class="info-text">No.8, Afarin Alley, Alvand St., Argentina Sq., Tehran, Iran.</span>
+                     <!-- Replaced emoji with Font Awesome icon -->
+                    <i><i class="fas fa-map-marker-alt"></i></i>
+                    <!-- Added Link to Address -->
+                    <span class="info-text">
+                        <a href="https://maps.app.goo.gl/sPTYcb9MDT5SevFj6" target="_blank" class="address-link">
+                            No. 8, Afarin Alley, Alvand St., Argentina Sq., Tehran, Iran
+                        </a>
+                    </span>
                 </div>
             </div>
         </div>
-        
+
         <!-- QR Code Box -->
         <div class="glass-box qr-box">
             <div class="qr-title">Scan to view our product catalogue</div>
             <div id="qrcode"></div>
             <span class="info-text">
-                        <a href="https://uploadkon.ir/uploads/e8b918_25CATALOG-RUSSIA-1403-11-28.pdf" target="_blank">
-                            Download Catalogue
-                        </a>
+                <!-- Link text uses primary color, hover uses accent -->
+                <a href="https://uploadkon.ir/uploads/e8b918_25CATALOG-RUSSIA-1403-11-28.pdf" target="_blank">
+                    Download Catalogue
+                </a>
             </span>
         </div>
     </div>
-    
+
     <script>
         // Generate QR code for the catalogue PDF
         window.onload = function() {
             new QRCode(document.getElementById("qrcode"), {
-                text: "http://hatintl.com/CATALOG-RUSSIA.pdf",
+                text: "https://uploadkon.ir/uploads/e8b918_25CATALOG-RUSSIA-1403-11-28.pdf", // Match download link
                 width: 120,
                 height: 120,
-                colorDark: "#333333",
+                colorDark: "#264b3b", // Use dark green for QR code
                 colorLight: "#ffffff",
                 correctLevel: QRCode.CorrectLevel.H
             });
