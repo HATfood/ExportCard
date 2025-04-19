@@ -125,8 +125,6 @@
             /* Removed bottom margin as product list is gone */
         }
 
-        /* Removed Product List Style */
-
         .info-boxes {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -138,6 +136,8 @@
             flex-direction: column;
             gap: 18px; /* Increased gap slightly */
             height: 100%;
+            /* Ensure boxes try to maintain similar height */
+             justify-content: flex-start; /* Align items to the top */
         }
 
         .info-item {
@@ -264,10 +264,9 @@
 
         <!-- Contact Information Boxes -->
         <div class="info-boxes">
-            <!-- Phone, Email, Website Box -->
+            <!-- Phone, Email, LinkedIn Box -->
             <div class="glass-box info-box">
                 <div class="info-item">
-                    <!-- Replaced emoji with Font Awesome icon -->
                     <i><i class="fas fa-phone-alt"></i></i>
                     <span class="info-text">
                         <a href="tel:+989122644556">+98 912 264 4556</a>
@@ -275,25 +274,14 @@
                 </div>
 
                 <div class="info-item">
-                     <!-- Replaced emoji with Font Awesome icon -->
                     <i><i class="fas fa-envelope"></i></i>
                     <span class="info-text">
                         <a href="mailto:firouzbakht.shirin@hastitamin.com">firouzbakht.shirin@hastitamin.com</a>
                     </span>
                 </div>
-                 <!-- Added Website -->
-                 <div class="info-item">
-                    <i><i class="fas fa-globe"></i></i>
-                    <span class="info-text">
-                        <a href="http://www.hastitaamin.com" target="_blank">HastiTaamin.com</a>
-                    </span>
-                </div>
-            </div>
 
-            <!-- LinkedIn and Address Box -->
-            <div class="glass-box info-box">
+                <!-- LinkedIn Moved Here -->
                 <div class="info-item">
-                     <!-- Replaced emoji with Font Awesome icon -->
                     <i><i class="fab fa-linkedin-in"></i></i>
                     <span class="info-text">
                         <a href="https://www.linkedin.com/in/shirin-firoozbakht" target="_blank">
@@ -301,9 +289,20 @@
                         </a>
                     </span>
                 </div>
+            </div>
+
+            <!-- Website and Address Box -->
+            <div class="glass-box info-box">
+                 <!-- Website Moved Here -->
+                 <div class="info-item">
+                    <i><i class="fas fa-globe"></i></i>
+                    <span class="info-text">
+                         <!-- Removed www. from text, href remains same -->
+                        <a href="http://www.hastitaamin.com" target="_blank">hastitaamin.com</a>
+                    </span>
+                </div>
 
                 <div class="info-item">
-                     <!-- Replaced emoji with Font Awesome icon -->
                     <i><i class="fas fa-map-marker-alt"></i></i>
                     <!-- Added Link to Address -->
                     <span class="info-text">
